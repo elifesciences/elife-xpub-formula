@@ -5,8 +5,8 @@ xpub-repository:
     builder.git_latest:
         - name: git@github.com:elifesciences/xpub.git
         - identity: {{ pillar.elife.projects_builder.key or '' }}
-        - rev: {{ salt['elife.rev']() }}
-        - branch: {{ salt['elife.branch']() }}
+        - rev: master
+        - branch: master
         - target: /srv/xpub/
         - force_fetch: True
         - force_checkout: True
