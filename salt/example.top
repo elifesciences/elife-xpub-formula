@@ -3,3 +3,5 @@ base:
         - elife
         - elife.nodejs7
         - elife-xpub
+        # only used on end2end/prod servers
+        #- elife-xpub.processes
