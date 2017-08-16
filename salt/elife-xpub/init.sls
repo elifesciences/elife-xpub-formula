@@ -36,6 +36,8 @@ elife-xpub-repository:
         - force_fetch: True
         - force_checkout: True
         - force_reset: True
+        - require:
+            - xpub-repository
 
     file.directory:
         - name: /srv/elife-xpub
