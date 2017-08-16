@@ -1,2 +1,2 @@
-elife-xpub:
+elife_xpub:
     no: data
