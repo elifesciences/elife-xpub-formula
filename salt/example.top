@@ -1,5 +1,5 @@
 base:
     '*':
         - elife
-        - elife.nodejs6
+        - elife.nodejs7
         - elife-xpub
