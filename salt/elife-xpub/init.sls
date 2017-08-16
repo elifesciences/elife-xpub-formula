@@ -21,8 +21,9 @@ elife-xpub-repository:
 
 xpub-repository:
     builder.git_latest:
-        - name: git@github.com:elifesciences/xpub.git
-        - identity: {{ pillar.elife.projects_builder.key or '' }}
+        - name: https://gitlab.coko.foundation/yld/xpub.git 
+        #- name: git@github.com:elifesciences/xpub.git
+        #- identity: {{ pillar.elife.projects_builder.key or '' }}
         - rev: master
         - branch: master
         - target: /srv/xpub/
