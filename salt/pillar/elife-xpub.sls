@@ -1,2 +1,6 @@
 elife_xpub:
-    no: data
+    database:
+        user: pubsweet
+        password: pubsweet
+        email: fake@example.com
+        collection: xpub

@@ -4,7 +4,7 @@ xpub-service:
         - source: salt://elife-xpub/config/etc-init-xpub.conf
         - template: jinja
         - require:
-            - elife-xpub-repository
+            - xpub-db-setup
 
     service.running:
         - name: xpub
