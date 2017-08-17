@@ -51,3 +51,18 @@ xpub-repository:
         - cwd: /srv/xpub
         - require:
             - file: xpub-repository
+
+xpub-db-setup:
+    cmd.run:
+        - name: npm run setupdb
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /srv/xpub
+        - unless:
+            - test -e /srv/xpub/api/db/dev/CURRENT
+        - env:
+            - PUBSWEET_DB_ADMIN: '{{ pillar.elife_xpub.database.user }}'
+            - PUBSWEET_DB_ADMIN_PASSWORD: '{{ pillar.elife_xpub.database.password }}'
+            - PUBSWEET_DB_ADMIN_EMAIL: '{{ pillar.elife_xpub.database.email }}'
+            - PUBSWEET_DB_COLLECTION: '{{ pillar.elife_xpub.database.collection }}'
+        - require:
+            - xpub-repository
