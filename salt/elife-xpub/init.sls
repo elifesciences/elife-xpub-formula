@@ -66,3 +66,28 @@ xpub-db-setup:
             - PUBSWEET_DB_COLLECTION: '{{ pillar.elife_xpub.database.collection }}'
         - require:
             - xpub-repository
+
+xpub-service:
+    file.managed:
+        - name: /etc/init/xpub.conf
+        - source: salt://elife-xpub/config/etc-init-xpub.conf
+        - template: jinja
+        - require:
+            - xpub-db-setup
+
+    service.running:
+        - name: xpub
+        - require:
+            - file: xpub-service
+
+xpub-nginx-vhost:
+    file.managed:
+        - name: /etc/nginx/sites-enabled/xpub.conf
+        - source: salt://elife-xpub/config/etc-nginx-sites-enabled-xpub.conf
+        - template: jinja
+        - require:
+            - nginx-config
+            - xpub-service
+        - listen_in:
+            - service: nginx-server-service
+
