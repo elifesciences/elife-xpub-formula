@@ -77,6 +77,7 @@ xpub-service:
 
     service.running:
         - name: xpub
+        - reload: True
         - require:
             - file: xpub-service
 
