@@ -69,8 +69,8 @@ xpub-db-setup:
 
 xpub-service:
     file.managed:
-        - name: /etc/init/xpub.conf
-        - source: salt://elife-xpub/config/etc-init-xpub.conf
+        - name: /lib/systemd/system/xpub.service
+        - source: salt://elife-xpub/config/lib-systemd-system-xpub.service
         - template: jinja
         - require:
             - xpub-db-setup
