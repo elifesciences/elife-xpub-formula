@@ -1,0 +1,13 @@
+[Unit]
+Description="elife-xpub, peer-review system"
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+StandardError=syslog
+WorkingDirectory=/srv/xpub
+User={{ pillar.elife.deploy_user.username }}
+ExecStart=/usr/bin/npm start
+Restart=on-failure
