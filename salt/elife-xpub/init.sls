@@ -78,6 +78,13 @@ xpub-service:
         - require:
             - file: xpub-service
 
+xpub-service-ready:
+    cmd.run:
+        - name: |
+            timeout 10 sh -c 'while ! nc -q0 -w1 -z localhost 3000 </dev/null >/dev/null 2>&1; do sleep 1; done'
+        - require:
+            - xpub-service
+
 xpub-nginx-vhost:
     file.managed:
         - name: /etc/nginx/sites-enabled/xpub.conf
@@ -85,7 +92,8 @@ xpub-nginx-vhost:
         - template: jinja
         - require:
             - nginx-config
-            - xpub-service
+            - xpub-service-ready
         - listen_in:
             - service: nginx-server-service
 
+    
