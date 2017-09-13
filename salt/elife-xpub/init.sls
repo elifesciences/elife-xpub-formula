@@ -47,6 +47,7 @@ xpub-repository:
         - name: |
             git checkout $(cat /srv/elife-xpub/xpub.sha1)
             npm install
+            npm run bootstrap
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/xpub
         - require:
