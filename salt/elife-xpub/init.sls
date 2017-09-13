@@ -55,7 +55,7 @@ xpub-repository:
 
 xpub-db-setup:
     cmd.run:
-        - name: npm run setupdb
+        - name: npm run setupdb --prefix=packages/xpub-collabra/
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/xpub
         - unless:
