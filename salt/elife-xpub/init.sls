@@ -72,9 +72,9 @@ xpub-service:
         - require:
             - xpub-db-setup
 
-    service.running:
-        - name: xpub
-        - restart: True
+    cmd.run
+        # always restart, don't trust
+        - name: systemctl restart xpub
         - require:
             - file: xpub-service
 
