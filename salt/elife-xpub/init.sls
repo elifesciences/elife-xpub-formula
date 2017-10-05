@@ -81,7 +81,7 @@ xpub-service:
 xpub-service-ready:
     cmd.run:
         - name: |
-            timeout 10 sh -c 'while ! nc -q0 -w1 -z localhost 3000 </dev/null >/dev/null 2>&1; do sleep 1; done'
+            timeout 60 sh -c 'while ! nc -q0 -w1 -z localhost 3000 </dev/null >/dev/null 2>&1; do sleep 1; done'
         - require:
             - xpub-service
 
