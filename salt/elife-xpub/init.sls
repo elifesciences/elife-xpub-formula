@@ -46,7 +46,8 @@ xpub-repository:
     cmd.run:
         - name: |
             git checkout $(cat /srv/elife-xpub/xpub.sha1)
-            npm install
+            npm update
+            npm prune
             npm run bootstrap
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/xpub
