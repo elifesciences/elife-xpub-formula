@@ -33,16 +33,12 @@ xpub-repository:
         - require:
             - elife-xpub-repository
 
-    file.directory:
-        - name: /srv/xpub
-        - user: {{ pillar.elife.deploy_user.username }}
-        - group: {{ pillar.elife.deploy_user.username }}
-        - recurse:
-            - user
-            - group
+    cmd.run:
+        - name: chown -R {{ pillar.elife.deploy_user.username }}:{{ pillar.elife.deploy_user.username }} /srv/xpub
         - require:
             - builder: xpub-repository
 
+xpub-repository-install:
     cmd.run:
         - name: |
             git checkout $(cat /srv/elife-xpub/xpub.sha1)
@@ -52,7 +48,7 @@ xpub-repository:
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/xpub
         - require:
-            - file: xpub-repository
+            - xpub-repository
 
 xpub-db-setup:
     cmd.run:
@@ -63,7 +59,7 @@ xpub-db-setup:
             - test -e /srv/xpub/packages/xpub-collabra/api/db/dev/CURRENT
         - env:
         - require:
-            - xpub-repository
+            - xpub-repository-install
 
 xpub-configuration:
     file.replace:
