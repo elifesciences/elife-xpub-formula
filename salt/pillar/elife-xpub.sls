@@ -4,6 +4,10 @@ elife_xpub:
         password: pubsweet
         email: fake@example.com
         collection: xpub
+    ink:
+        user: fakeuser
+        password: fakepassword 
+        endpoint: http://ink-api.coko.foundation 
 
 elife:
     known_hosts:
