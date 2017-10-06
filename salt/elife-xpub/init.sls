@@ -65,13 +65,21 @@ xpub-db-setup:
         - require:
             - xpub-repository
 
+xpub-configuration:
+    file.replace:
+        - name: /srv/xpub/packages/xpub-collabra/config/default.js
+        - pattern: "http://localhost:3000"
+        - repl: {{ pillar.elife_xpub.api.endpoint }}
+        - require:
+            - xpub-db-setup
+
 xpub-service:
     file.managed:
         - name: /lib/systemd/system/xpub.service
         - source: salt://elife-xpub/config/lib-systemd-system-xpub.service
         - template: jinja
         - require:
-            - xpub-db-setup
+            - xpub-configuration
 
     cmd.run:
         # always restart, don't trust

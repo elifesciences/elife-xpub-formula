@@ -1,4 +1,6 @@
 elife_xpub:
+    api:
+        endpoint: http://192.68.33.44
     database:
         user: pubsweet
         password: pubsweet
