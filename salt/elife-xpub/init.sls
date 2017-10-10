@@ -77,9 +77,11 @@ xpub-service:
         - require:
             - xpub-configuration
 
-    cmd.run:
-        # always restart, don't trust
-        - name: systemctl restart xpub
+    service.running:
+        # how to always restart?
+        - name: xpub
+        - enable: True
+        - reload: True
         - require:
             - file: xpub-service
 
