@@ -79,7 +79,10 @@ xpub-service:
 
     cmd.run:
         # always restart, don't trust
-        - name: systemctl restart xpub
+        - name: |
+            systemctl daemon-reload
+            systemctl enable xpub
+            systemctl restart xpub
         - require:
             - file: xpub-service
 
