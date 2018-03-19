@@ -5,7 +5,6 @@ elife_xpub:
         user: pubsweet
         password: pubsweet
         email: fake@example.com
-        collection: xpub
     ink:
         user: fakeuser
         password: fakepassword 
