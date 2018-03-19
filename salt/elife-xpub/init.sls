@@ -1,3 +1,13 @@
+# TODO: deprecated, remove when applied everywhere
+elife-xpub-systemd:
+    cmd.run:
+        - name: |
+            systemctl stop xpub
+            rm -rf /srv/xpub
+
+    file.absent:
+        - name: /lib/systemd/system/xpub.service
+
 elife-xpub-repository:
     builder.git_latest:
         - name: git@github.com:elifesciences/elife-xpub.git
@@ -19,86 +29,39 @@ elife-xpub-repository:
         - require:
             - builder: elife-xpub-repository
 
-xpub-repository:
-    builder.git_latest:
-        - name: https://gitlab.coko.foundation/yld/xpub.git 
-        #- name: git@github.com:elifesciences/xpub.git
-        #- identity: {{ pillar.elife.projects_builder.key or '' }}
-        - rev: master
-        - branch: master
-        - target: /srv/xpub/
-        - force_fetch: True
-        - force_checkout: True
-        - force_reset: True
+elife-xpub-docker-compose:
+    cmd.run:
+        - name: docker-compose up -d --force-recreate
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-repository
 
-    cmd.run:
-        - name: chown -R {{ pillar.elife.deploy_user.username }}:{{ pillar.elife.deploy_user.username }} /srv/xpub
-        - require:
-            - builder: xpub-repository
-
-xpub-repository-install:
+elife-xpub-db-setup:
     cmd.run:
         - name: |
-            git checkout $(cat /srv/elife-xpub/xpub.sha1)
-            npm update
-            npm prune
-            npm run bootstrap
+            wait_for_port 5432
+            docker-compose exec app npx pubsweet setupdb --username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }} --clobber
         - user: {{ pillar.elife.deploy_user.username }}
-        - cwd: /srv/xpub
+        - cwd: /srv/elife-xpub
         - require:
-            - xpub-repository
+            - elife-xpub-docker-compose
 
-xpub-db-setup:
+elife-xpub-service-ready:
     cmd.run:
-        - name: npm run setupdb --prefix=packages/xpub-collabra/ -- --username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }} --collection={{ pillar.elife_xpub.database.collection }}
+        - name: wait_for_port 3000
         - user: {{ pillar.elife.deploy_user.username }}
-        - cwd: /srv/xpub
-        - unless:
-            - test -e /srv/xpub/packages/xpub-collabra/api/db/dev/CURRENT
-        - env:
         - require:
-            - xpub-repository-install
+            - elife-xpub-docker-compose
+            - elife-xpub-db-setup
 
-xpub-configuration:
-    file.replace:
-        - name: /srv/xpub/packages/xpub-collabra/config/default.js
-        - pattern: "http://localhost:3000"
-        - repl: {{ pillar.elife_xpub.api.endpoint }}
-        - require:
-            - xpub-db-setup
-
-xpub-service:
-    file.managed:
-        - name: /lib/systemd/system/xpub.service
-        - source: salt://elife-xpub/config/lib-systemd-system-xpub.service
-        - template: jinja
-        - require:
-            - xpub-configuration
-
-    cmd.run:
-        # always restart, don't trust
-        - name: systemctl restart xpub
-        - require:
-            - file: xpub-service
-
-xpub-service-ready:
-    cmd.run:
-        - name: |
-            timeout 60 sh -c 'while ! nc -q0 -w1 -z localhost 3000 </dev/null >/dev/null 2>&1; do sleep 1; done'
-        - require:
-            - xpub-service
-
-xpub-nginx-vhost:
+elife-xpub-nginx-vhost:
     file.managed:
         - name: /etc/nginx/sites-enabled/xpub.conf
         - source: salt://elife-xpub/config/etc-nginx-sites-enabled-xpub.conf
         - template: jinja
         - require:
             - nginx-config
-            - xpub-service-ready
+            - elife-xpub-service-ready
         - listen_in:
             - service: nginx-server-service
-
-    
