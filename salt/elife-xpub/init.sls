@@ -37,15 +37,8 @@ elife-xpub-docker-compose:
         - require:
             - elife-xpub-repository
 
-elife-xpub-db-setup:
-    cmd.run:
-        - name: |
-            wait_for_port 5432
-            docker-compose exec app npx pubsweet setupdb --username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }} --clobber
-        - user: {{ pillar.elife.deploy_user.username }}
-        - cwd: /srv/elife-xpub
-        - require:
-            - elife-xpub-docker-compose
+# db setup is performed in docker-compose at the moment
+# docker-compose exec app npx pubsweet setupdb --username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }} --clobber
 
 elife-xpub-service-ready:
     cmd.run:
@@ -53,7 +46,6 @@ elife-xpub-service-ready:
         - user: {{ pillar.elife.deploy_user.username }}
         - require:
             - elife-xpub-docker-compose
-            - elife-xpub-db-setup
 
 elife-xpub-nginx-vhost:
     file.managed:
