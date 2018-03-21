@@ -44,7 +44,7 @@ elife-xpub-docker-compose:
 
 elife-xpub-service-ready:
     cmd.run:
-        - name: wait_for_port 3000
+        - name: docker wait xpub_bootstrap_1
         - user: {{ pillar.elife.deploy_user.username }}
         - require:
             - elife-xpub-docker-compose
