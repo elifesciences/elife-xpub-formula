@@ -29,6 +29,26 @@ elife-xpub-repository:
         - require:
             - builder: elife-xpub-repository
 
+elife-xpub-database-startup:
+    cmd.run:
+        - name: docker-compose up -d postgres
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /srv/elife-xpub
+        - require:
+            - elife-xpub-repository
+
+elife-xpub-database-creation:
+    cmd.run:
+        - name: docker-compose run app /bin/bash -c "until echo > /dev/tcp/postgres/5432; do sleep 1; done; npx pubsweet setupdb --username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }}"
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /srv/elife-xpub
+        - unless:
+            # cannot use docker-compose run here: it will change the permissions of the volume /var/lib/postgresql/data to 777
+            # for some reason perhaps related to sharing a volume between containers?
+            - docker-compose exec postgres psql xpub xpub -c "SELECT 'public.entities'::regclass"
+        - require:
+            - elife-xpub-database-startup
+
 elife-xpub-docker-compose:
     cmd.run:
         - name: docker-compose up -d --force-recreate
@@ -36,13 +56,11 @@ elife-xpub-docker-compose:
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-repository
-
-# db setup is performed in docker-compose at the moment
-# docker-compose exec app npx pubsweet setupdb --username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }} --clobber
+            - elife-xpub-database-creation
 
 elife-xpub-service-ready:
     cmd.run:
-        - name: wait_for_port 3000
+        - name: docker wait xpub_bootstrap_1
         - user: {{ pillar.elife.deploy_user.username }}
         - require:
             - elife-xpub-docker-compose
