@@ -29,9 +29,23 @@ elife-xpub-repository:
         - require:
             - builder: elife-xpub-repository
 
-elife-xpub-database-setup:
+elife-xpub-database-startup:
+    cmd.run:
+        - name: docker-compose up -d postgres
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /srv/elife-xpub
+        - require:
+            - elife-xpub-repository
+
+elife-xpub-database-creation:
     cmd.run:
         - name: docker-compose run app /bin/bash -c "until echo > /dev/tcp/postgres/5432; do sleep 1; done; npx pubsweet setupdb --username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }} --clobber"
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /srv/elife-xpub
+        - unless:
+            - docker-compose run --rm postgres psql -h postgres xpub xpub -c "SELECT 'public.entities'::regclass"
+        - require:
+            - elife-xpub-database-startup
 
 elife-xpub-docker-compose:
     cmd.run:
@@ -40,7 +54,7 @@ elife-xpub-docker-compose:
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-repository
-            - elife-xpub-database-setup
+            - elife-xpub-database-creation
 
 elife-xpub-service-ready:
     cmd.run:
