@@ -43,7 +43,9 @@ elife-xpub-database-creation:
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - unless:
-            - docker-compose run --rm postgres psql -h postgres xpub xpub -c "SELECT 'public.entities'::regclass"
+            # cannot use docker-compose run here: it will change the permissions of the volume /var/lib/postgresql/data to 777
+            # for some reason perhaps related to sharing a volume between containers?
+            - docker-compose exec postgres psql xpub xpub -c "SELECT 'public.entities'::regclass"
         - require:
             - elife-xpub-database-startup
 
