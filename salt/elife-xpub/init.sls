@@ -1,13 +1,3 @@
-# TODO: deprecated, remove when applied everywhere
-elife-xpub-systemd:
-    cmd.run:
-        - name: |
-            systemctl stop xpub
-            rm -rf /srv/xpub
-
-    file.absent:
-        - name: /lib/systemd/system/xpub.service
-
 elife-xpub-repository:
     builder.git_latest:
         - name: git@github.com:elifesciences/elife-xpub.git
