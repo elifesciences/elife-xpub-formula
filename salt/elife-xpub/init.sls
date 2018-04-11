@@ -19,6 +19,13 @@ elife-xpub-repository:
         - require:
             - builder: elife-xpub-repository
 
+elife-xpub-environment-variables-for-configuration:
+    file.managed:
+        - name: /etc/profile.d/elife-xpub-configuration.sh
+        - contents: |
+            export ORCID_CLIENT_ID={{ pillar.elife_xpub.orcid.client_id }}
+            export ORCID_CLIENT_SECRET={{ pillar.elife_xpub.orcid.client_secret }}
+
 elife-xpub-database-startup:
     cmd.run:
         - name: docker-compose up -d postgres
@@ -26,6 +33,7 @@ elife-xpub-database-startup:
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-repository
+            - elife-xpub-environment-variables-for-configuration:
 
 elife-xpub-database-creation:
     cmd.run:
