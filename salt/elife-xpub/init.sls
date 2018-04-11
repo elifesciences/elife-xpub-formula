@@ -33,7 +33,7 @@ elife-xpub-database-startup:
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-repository
-            - elife-xpub-environment-variables-for-configuration:
+            - elife-xpub-environment-variables-for-configuration
 
 elife-xpub-database-creation:
     cmd.run:
