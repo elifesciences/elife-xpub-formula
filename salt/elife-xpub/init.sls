@@ -38,6 +38,7 @@ elife-xpub-database-startup:
 elife-xpub-database-creation:
     cmd.script:
         - name: salt://elife-xpub/scripts/create-database.sh
+        - template: jinja
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
