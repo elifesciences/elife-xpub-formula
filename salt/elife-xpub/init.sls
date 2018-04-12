@@ -36,14 +36,11 @@ elife-xpub-database-startup:
             - elife-xpub-environment-variables-for-configuration
 
 elife-xpub-database-creation:
-    cmd.run:
-        - name: docker-compose run app /bin/bash -c "until echo > /dev/tcp/postgres/5432; do sleep 1; done; npx pubsweet setupdb --username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }}"
+    cmd.script:
+        - name: salt://elife-xpub/scripts/create-database.sh
+        - template: jinja
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
-        - unless:
-            # cannot use docker-compose run here: it will change the permissions of the volume /var/lib/postgresql/data to 777
-            # for some reason perhaps related to sharing a volume between containers?
-            - docker-compose exec postgres psql xpub xpub -c "SELECT 'public.entities'::regclass"
         - require:
             - elife-xpub-database-startup
 
