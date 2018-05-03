@@ -13,4 +13,4 @@ elife_xpub:
         client_id: fake_client_id
         client_secret: fake_client_secret
     pubsweet:
-        baseUrl: fake_pubsweet_baseurl
+        base_url: fake_pubsweet_baseurl
