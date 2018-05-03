@@ -7,8 +7,10 @@ elife_xpub:
         email: fake@example.com
     ink:
         user: fakeuser
-        password: fakepassword 
-        endpoint: http://ink-api.coko.foundation 
+        password: fakepassword
+        endpoint: http://ink-api.coko.foundation
     orcid:
         client_id: fake_client_id
         client_secret: fake_client_secret
+    pubsweet:
+        baseUrl: fake_pubsweet_baseurl
