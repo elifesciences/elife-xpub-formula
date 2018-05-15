@@ -1,6 +1,6 @@
 elife-xpub-repository:
     builder.git_latest:
-        - name: git@github.com:elifesciences/elife-xpub.git
+        - name: git@github.com:elifesciences/elife-xpub-deployment.git
         - identity: {{ pillar.elife.projects_builder.key or '' }}
         - rev: {{ salt['elife.rev']() }}
         - branch: {{ salt['elife.branch']() }}
