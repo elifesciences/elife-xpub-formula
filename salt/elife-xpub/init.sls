@@ -71,3 +71,10 @@ elife-xpub-nginx-vhost:
             - elife-xpub-service-ready
         - listen_in:
             - service: nginx-server-service
+
+# frees disk space from old images/containers/volumes/...
+elife-xpub-docker-prune:
+    cmd.run:
+        - name: /usr/local/docker-scripts/docker-prune
+        - require:
+            - docker-ready
