@@ -14,3 +14,8 @@ elife_xpub:
         client_secret: fake_client_secret
     pubsweet:
         base_url: fake_pubsweet_baseurl
+
+elife:
+    aws:
+        access_key_id: AKIAFAKE
+        secret_access_key: fake
