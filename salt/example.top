@@ -4,4 +4,5 @@ base:
         - elife.external-volume
         - elife.docker
         - elife.nginx
+        - elife.aws-credentials
         - elife-xpub
