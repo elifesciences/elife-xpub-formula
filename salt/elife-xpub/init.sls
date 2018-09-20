@@ -1,3 +1,5 @@
+{% set docker-compose = 'docker-compose -f docker-compose.yml -f docker-compose.formula.yml' %}
+
 elife-xpub-repository:
     builder.git_latest:
         - name: git@github.com:elifesciences/elife-xpub-deployment.git
@@ -29,7 +31,7 @@ elife-xpub-environment-variables-for-configuration:
 
 elife-xpub-database-startup:
     cmd.run:
-        - name: docker-compose up -d postgres
+        - name: {{ docker-compose }} up -d postgres
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
@@ -47,7 +49,7 @@ elife-xpub-database-creation:
 
 elife-xpub-docker-compose:
     cmd.run:
-        - name: docker-compose up -d --force-recreate
+        - name: {{ docker-compose }} up -d --force-recreate
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
