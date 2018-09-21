@@ -28,6 +28,7 @@ elife-xpub-environment-variables-for-configuration:
             export ORCID_CLIENT_ID={{ pillar.elife_xpub.orcid.client_id }}
             export ORCID_CLIENT_SECRET={{ pillar.elife_xpub.orcid.client_secret }}
             export PUBSWEET_BASEURL={{ pillar.elife_xpub.pubsweet.base_url }}
+            export S3_BUCKET={{ pillar.elife_xpub.s3.bucket }}
 
 elife-xpub-database-startup:
     cmd.run:
