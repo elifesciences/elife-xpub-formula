@@ -14,6 +14,8 @@ elife_xpub:
         client_secret: fake_client_secret
     pubsweet:
         base_url: fake_pubsweet_baseurl
+    s3:
+        bucket: fake_bucket
 
 elife:
     aws:
