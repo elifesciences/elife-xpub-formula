@@ -26,7 +26,7 @@ elife-xpub-environment-variables-for-configuration:
         - name: /etc/profile.d/elife-xpub-configuration.sh
         - contents: |
             # boolean, use `|tojson` in Salt 2018.x
-            export ORCID_SANDBOX={% if pillar.elife_xpub.orcid.sandbox -%}true{% else -%}false{% endif -%} 
+            export ORCID_SANDBOX={% if pillar.elife_xpub.orcid.sandbox -%}true{% else -%}false{% endif %} 
             export ORCID_CLIENT_ID={{ pillar.elife_xpub.orcid.client_id }}
             export ORCID_CLIENT_SECRET={{ pillar.elife_xpub.orcid.client_secret }}
             export PUBSWEET_BASEURL={{ pillar.elife_xpub.pubsweet.base_url }}
