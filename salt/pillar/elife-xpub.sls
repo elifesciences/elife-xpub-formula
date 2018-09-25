@@ -10,6 +10,7 @@ elife_xpub:
         password: fakepassword
         endpoint: http://ink-api.coko.foundation
     orcid:
+        sandbox: true
         client_id: fake_client_id
         client_secret: fake_client_secret
     pubsweet:
