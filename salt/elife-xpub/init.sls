@@ -25,6 +25,7 @@ elife-xpub-environment-variables-for-configuration:
     file.managed:
         - name: /etc/profile.d/elife-xpub-configuration.sh
         - contents: |
+            export ORCID_SANDBOX={{ pillar.elife_xpub.orcid.sandbox|tojson }} # boolean
             export ORCID_CLIENT_ID={{ pillar.elife_xpub.orcid.client_id }}
             export ORCID_CLIENT_SECRET={{ pillar.elife_xpub.orcid.client_secret }}
             export PUBSWEET_BASEURL={{ pillar.elife_xpub.pubsweet.base_url }}
