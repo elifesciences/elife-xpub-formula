@@ -16,7 +16,7 @@ elife_xpub:
         base_url: fake_pubsweet_baseurl
     s3:
         bucket: fake_bucket
-    deployment_target: production
+    deployment_target: test
 
 elife:
     aws:
