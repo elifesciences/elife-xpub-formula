@@ -30,6 +30,26 @@ elife-xpub-environment-variables-for-configuration:
             export PUBSWEET_BASEURL={{ pillar.elife_xpub.pubsweet.base_url }}
             export S3_BUCKET={{ pillar.elife_xpub.s3.bucket }}
 
+elife-xpub-environment-variables-for-database-credentials:
+    file.managed:
+        - name: /etc/profile.d/elife-xpub-database-credentials.sh
+        - contents: |
+            {% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
+            # remote RDS server
+            export PGHOST={{ salt['elife.cfg']('cfn.outputs.RDSHost') }}
+            export PGPORT={{ salt['elife.cfg']('cfn.outputs.RDSPort') }}
+            export PGDATABASE={{ salt['elife.cfg']('project.rds_dbname') }}
+            export PGUSER={{ salt['elife.cfg']('project.rds_username') }}
+            export PGPASSWORD={{ salt['elife.cfg']('project.rds_password') }}
+            {% else %}
+            # local container
+            export PGHOST=postgres
+            export PGPORT=5432
+            export PGDATABASE=
+            export PGUSER=xpub
+            export PGPASSWORD=
+            {% endif %}
+
 elife-xpub-database-startup:
     cmd.run:
         - name: {{ docker_compose }} up -d postgres
@@ -38,6 +58,7 @@ elife-xpub-database-startup:
         - require:
             - elife-xpub-repository
             - elife-xpub-environment-variables-for-configuration
+            - elife-xpub-environment-variables-for-database-credentials
 
 elife-xpub-database-creation:
     cmd.script:
