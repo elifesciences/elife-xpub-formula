@@ -21,7 +21,7 @@ elife-xpub-repository:
         - require:
             - builder: elife-xpub-repository
 
-xpub-logs:
+elife-xpub-logs:
     file.directory:
         - name: /srv/elife-xpub/var/logs/
         - user: {{ pillar.elife.deploy_user.username }}
