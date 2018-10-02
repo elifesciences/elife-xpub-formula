@@ -21,6 +21,16 @@ elife-xpub-repository:
         - require:
             - builder: elife-xpub-repository
 
+elife-xpub-logs:
+    file.directory:
+        - name: /srv/elife-xpub/var/logs/
+        - user: {{ pillar.elife.deploy_user.username }}
+        - group: {{ pillar.elife.deploy_user.username }}
+        - makedirs: True
+        - dir_mode: 775
+        - require:
+            - elife-xpub-repository
+
 elife-xpub-environment-variables-for-configuration:
     file.managed:
         - name: /etc/profile.d/elife-xpub-configuration.sh
