@@ -71,9 +71,9 @@ elife-xpub-database-startup:
             - elife-xpub-environment-variables-for-configuration
             - elife-xpub-environment-variables-for-database-credentials
 
-elife-xpub-database-creation:
+elife-xpub-database-setup:
     cmd.script:
-        - name: salt://elife-xpub/scripts/create-database.sh
+        - name: salt://elife-xpub/scripts/setup-database.sh
         - template: jinja
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
@@ -87,7 +87,7 @@ elife-xpub-docker-compose:
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-repository
-            - elife-xpub-database-creation
+            - elife-xpub-database-setup
 
 elife-xpub-service-ready:
     cmd.run:
