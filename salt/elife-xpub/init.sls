@@ -61,6 +61,8 @@ elife-xpub-environment-variables-for-database-credentials:
             export PGPASSWORD=
             {% endif %}
 
+{% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
+{% else %}
 elife-xpub-database-startup:
     cmd.run:
         - name: {{ docker_compose }} up -d postgres
@@ -79,6 +81,7 @@ elife-xpub-database-setup:
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-database-startup
+{% endif %}
 
 elife-xpub-docker-compose:
     cmd.run:
