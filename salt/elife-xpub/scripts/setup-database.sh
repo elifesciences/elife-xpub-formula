@@ -9,10 +9,10 @@ DB_CREATED_COMMAND="psql -c \"SELECT 'public.entities'::regclass\""
 SETUP_ARGS="--username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }}"
 
 # Run the command to ensure the database is started
-$(${DC_COMMAND})
+$(${DC_COMMAND} start)
 
 # Wait for the database to come up
-if $($(DB_AVAILABLE_COMMAND))
+if $(${DB_AVAILABLE_COMMAND})
 then
     if $(${DC_COMMAND} exec -T postgres /bin/bash -c "${DB_CREATED_COMMAND}")
     then
