@@ -56,7 +56,7 @@ elife-xpub-environment-variables-for-database-credentials:
             # local container
             export PGHOST=postgres
             export PGPORT=5432
-            export PGDATABASE=
+            export PGDATABASE=xpub
             export PGUSER=xpub
             export PGPASSWORD=
             {% endif %}
