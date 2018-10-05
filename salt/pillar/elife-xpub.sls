@@ -17,6 +17,8 @@ elife_xpub:
         secret: fake_pubsweet_secret
     s3:
         bucket: fake_bucket
+    meca:
+        api_key: ThisIsNotAnApiKey
     deployment_target: test
 
 elife:

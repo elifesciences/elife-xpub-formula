@@ -41,6 +41,7 @@ elife-xpub-environment-variables-for-configuration:
             export PUBSWEET_SECRET={{ pillar.elife_xpub.pubsweet.secret }}
             export S3_BUCKET={{ pillar.elife_xpub.s3.bucket }}
             export NODE_CONFIG_ENV={{ pillar.elife_xpub.deployment_target }}
+            export MECA_API_KEY={{ pillar.elife_xpub.meca.api_key }}
 
 elife-xpub-environment-variables-for-database-credentials:
     file.managed:
