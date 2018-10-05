@@ -14,7 +14,7 @@ elife-xpub-repository:
     file.directory:
         - name: /srv/elife-xpub
         - user: {{ pillar.elife.deploy_user.username }}
-        {% set docker_compose =  run app timeout 1 bash -c 'cat < /dev/null > /dev/tcp/$PGHOST/542'lar.elife.deploy_user.username }}
+        - group: {{ pillar.elife.deploy_user.username }}
         - recurse:
             - user
             - group
