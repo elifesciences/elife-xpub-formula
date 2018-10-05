@@ -17,8 +17,11 @@ elife_xpub:
         client_secret: fake_client_secret
     pubsweet:
         base_url: fake_pubsweet_baseurl
+        secret: fake_pubsweet_secret
     s3:
         bucket: fake_bucket
+    meca:
+        api_key: ThisIsNotAnApiKey
     deployment_target: ci
 
 elife:
