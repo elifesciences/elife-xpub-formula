@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 DC_COMMAND="docker-compose -f docker-compose.yml -f docker-compose.formula.yml"
 DB_CREATED_COMMAND="psql -c \"SELECT 'public.entities'::regclass\""
