@@ -1,3 +1,6 @@
+# This file should be kept in sync with the AWS defaults:
+# https://github.com/elifesciences/builder-configuration/blob/master/pillar/elife-xpub-public.sls
+#
 elife_xpub:
     api:
         endpoint: http://192.168.33.44
@@ -16,7 +19,7 @@ elife_xpub:
         base_url: fake_pubsweet_baseurl
     s3:
         bucket: fake_bucket
-    deployment_target: test
+    deployment_target: ci
 
 elife:
     aws:
