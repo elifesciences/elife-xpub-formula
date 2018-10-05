@@ -14,7 +14,7 @@ elife-xpub-repository:
     file.directory:
         - name: /srv/elife-xpub
         - user: {{ pillar.elife.deploy_user.username }}
-        - group: {{ pillar.elife.deploy_user.username }}
+        {% set docker_compose =  run app timeout 1 bash -c 'cat < /dev/null > /dev/tcp/$PGHOST/542'lar.elife.deploy_user.username }}
         - recurse:
             - user
             - group
@@ -63,13 +63,29 @@ elife-xpub-environment-variables-for-database-credentials:
 
 elife-xpub-database-startup:
     cmd.run:
-        - name: {{ docker_compose }} up -d postgres
+        - name: |
+            {% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
+            # remote RDS server
+            echo "RDS instance should already be started"
+            {% else %}
+            {{ docker_compose }} up -d postgres
+            {% endif %}
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-repository
             - elife-xpub-environment-variables-for-configuration
             - elife-xpub-environment-variables-for-database-credentials
+
+elife-xpub-database-available:
+    cmd.run:
+        - name: |
+            # NOTE: var expansion happens on the host not in the container
+            {{ docker_compose }} run app /bin/bash -c "timeout 10 bash -c 'cat < /dev/null > /dev/tcp/${PGHOST}/${PGPORT}' "
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /srv/elife-xpub
+        - require:
+            - elife-xpub-database-startup
 
 elife-xpub-database-setup:
     cmd.script:
@@ -78,7 +94,7 @@ elife-xpub-database-setup:
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
-            - elife-xpub-database-startup
+            - elife-xpub-database-available
 
 elife-xpub-docker-compose:
     cmd.run:
