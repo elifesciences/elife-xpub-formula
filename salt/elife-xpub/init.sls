@@ -58,14 +58,20 @@ elife-xpub-environment-variables-for-database-credentials:
             # local container
             export PGHOST=postgres
             export PGPORT=5432
-            export PGDATABASE=
+            export PGDATABASE=xpub
             export PGUSER=xpub
             export PGPASSWORD=
             {% endif %}
 
 elife-xpub-database-startup:
     cmd.run:
-        - name: {{ docker_compose }} up -d postgres
+        - name: |
+            {% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
+            # remote RDS server
+            echo "RDS instance should already be started"
+            {% else %}
+            {{ docker_compose }} up -d postgres
+            {% endif %}
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
@@ -73,14 +79,24 @@ elife-xpub-database-startup:
             - elife-xpub-environment-variables-for-configuration
             - elife-xpub-environment-variables-for-database-credentials
 
-elife-xpub-database-creation:
-    cmd.script:
-        - name: salt://elife-xpub/scripts/create-database.sh
-        - template: jinja
+elife-xpub-database-available:
+    cmd.run:
+        - name: |
+            # NOTE: var expansion happens on the host not in the container
+            {{ docker_compose }} run app /bin/bash -c "timeout 10 bash -c 'until echo > /dev/tcp/${PGHOST}/${PGPORT} ; do sleep 1 ;done' "
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-database-startup
+
+elife-xpub-database-setup:
+    cmd.script:
+        - name: salt://elife-xpub/scripts/setup-database.sh
+        - template: jinja
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /srv/elife-xpub
+        - require:
+            - elife-xpub-database-available
 
 elife-xpub-docker-compose:
     cmd.run:
@@ -89,7 +105,7 @@ elife-xpub-docker-compose:
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-repository
-            - elife-xpub-database-creation
+            - elife-xpub-database-setup
 
 elife-xpub-service-ready:
     cmd.run:
