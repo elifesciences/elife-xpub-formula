@@ -22,7 +22,7 @@ elife_xpub:
         bucket: fake_bucket
     meca:
         sftp:
-            connectionOptions:
+            connection:
                 host: fake_host
                 port: fake_port
                 username: fake_username
