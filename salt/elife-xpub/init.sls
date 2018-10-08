@@ -45,7 +45,7 @@ elife-xpub-environment-variables-for-configuration:
             export MECA_SFTP_PORT={{ pillar.elife_xpub.meca.sftp.connection.port }}
             export MECA_SFTP_USERNAME={{ pillar.elife_xpub.meca.sftp.connection.username }}
             export MECA_SFTP_PASSWORD={{ pillar.elife_xpub.meca.sftp.connection.password }}
-            export MECA_SFTP_REMOTEPATH={{ pillar.elife_xpub.meca.sftp.remotePath }}
+            export MECA_SFTP_REMOTEPATH={{ pillar.elife_xpub.meca.sftp.remote_path }}
             export MECA_API_KEY={{ pillar.elife_xpub.meca.api_key }}
 
 elife-xpub-environment-variables-for-database-credentials:
