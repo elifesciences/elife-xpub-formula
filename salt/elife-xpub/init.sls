@@ -134,8 +134,9 @@ elife-xpub-nginx-vhost:
             - service: nginx-server-service
 
 # frees disk space from old images/containers/volumes/...
+# older than last 72 hours and not in use
 elife-xpub-docker-prune:
     cmd.run:
-        - name: /usr/local/docker-scripts/docker-prune
+        - name: /usr/local/docker-scripts/docker-prune 72
         - require:
             - docker-ready
