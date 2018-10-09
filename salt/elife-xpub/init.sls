@@ -47,6 +47,9 @@ elife-xpub-environment-variables-for-configuration:
             export MECA_SFTP_PASSWORD={{ pillar.elife_xpub.meca.sftp.connection.password }}
             export MECA_SFTP_REMOTEPATH={{ pillar.elife_xpub.meca.sftp.remote_path }}
             export MECA_API_KEY={{ pillar.elife_xpub.meca.api_key }}
+            export NEW_RELIC_ENABLED={% if pillar.elife.newrelic.enabled %}true{% else %}false{% endif %}
+            export NEW_RELIC_APP_NAME={{ salt['elife.cfg']('project.stackname') }}
+            export NEW_RELIC_LICENSE_KEY={{ pillar.elife.newrelic.license }}
 
 elife-xpub-environment-variables-for-database-credentials:
     file.managed:
