@@ -139,3 +139,22 @@ elife-xpub-docker-prune:
         - name: /usr/local/docker-scripts/docker-prune
         - require:
             - docker-ready
+
+elife-xpub-syslog-ng:
+    file.managed:
+        - name: /etc/syslog-ng/conf.d/elife-xpub.conf
+        - source: salt://elife-xpub/config/etc-syslog-ng-conf.d-elife-xpub.conf
+        - template: jinja
+        - require:
+            - pkg: syslog-ng
+            - elife-xpub-logs
+        - listen_in:
+            - service: syslog-ng
+
+elife-xpub-logrotate:
+    file.managed:
+        - name: /etc/logrotate.d/elife-xpub
+        - source: salt://elife-xpub/config/etc-logrotate.d-elife-xpub
+        - template: jinja
+        - require:
+            - elife-xpub-logs
