@@ -150,3 +150,11 @@ elife-xpub-syslog-ng:
             - elife-xpub-logs
         - listen_in:
             - service: syslog-ng
+
+elife-xpub-logrotate:
+    file.managed:
+        - name: /etc/logrotate.d/elife-xpub
+        - source: salt://elife-xpub/config/etc-logrotate.d-elife-xpub
+        - template: jinja
+        - require:
+            - elife-xpub-logs
