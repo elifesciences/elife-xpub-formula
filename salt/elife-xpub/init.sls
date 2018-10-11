@@ -35,8 +35,6 @@ elife-xpub-environment-variables-for-configuration:
     file.managed:
         - name: /etc/profile.d/elife-xpub-configuration.sh
         - contents: |
-            export ORCID_CLIENT_ID={{ pillar.elife_xpub.orcid.client_id }}
-            export ORCID_CLIENT_SECRET={{ pillar.elife_xpub.orcid.client_secret }}
             export PUBSWEET_BASEURL={{ pillar.elife_xpub.pubsweet.base_url }}
             export PUBSWEET_SECRET={{ pillar.elife_xpub.pubsweet.secret }}
             export S3_BUCKET={{ pillar.elife_xpub.s3.bucket }}
