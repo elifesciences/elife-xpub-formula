@@ -12,9 +12,6 @@ elife_xpub:
         user: fakeuser
         password: fakepassword
         endpoint: http://ink-api.coko.foundation
-    orcid:
-        client_id: fake_client_id
-        client_secret: fake_client_secret
     pubsweet:
         base_url: fake_pubsweet_baseurl
         secret: fake_pubsweet_secret
