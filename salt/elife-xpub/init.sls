@@ -89,7 +89,7 @@ elife-xpub-database-available:
     cmd.run:
         - name: |
             # NOTE: var expansion happens on the host not in the container
-            {{ docker_compose }} run app /bin/bash -c "timeout 10 bash -c 'until echo > /dev/tcp/${PGHOST}/${PGPORT} ; do sleep 1 ;done' "
+            {{ docker_compose }} run --rm app /bin/bash -c "timeout 10 bash -c 'until echo > /dev/tcp/${PGHOST}/${PGPORT} ; do sleep 1 ;done' "
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
