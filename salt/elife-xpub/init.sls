@@ -95,6 +95,7 @@ elife-xpub-database-available:
         - require:
             - elife-xpub-database-startup
 
+{% if salt['elife.cfg']('project.node', 1) == 1 %}
 elife-xpub-database-setup:
     cmd.script:
         - name: salt://elife-xpub/scripts/setup-database.sh
@@ -103,6 +104,9 @@ elife-xpub-database-setup:
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-database-available
+        - require_in:
+            - cmd: elife-xpub-docker-compose
+{% endif %}
 
 elife-xpub-docker-compose:
     cmd.run:
@@ -111,7 +115,6 @@ elife-xpub-docker-compose:
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-repository
-            - elife-xpub-database-setup
 
 elife-xpub-service-ready:
     cmd.run:
