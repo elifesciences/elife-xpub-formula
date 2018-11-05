@@ -48,6 +48,7 @@ elife-xpub-environment-variables-for-configuration:
             export NEW_RELIC_ENABLED={% if pillar.elife.newrelic.enabled %}true{% else %}false{% endif %}
             export NEW_RELIC_APP_NAME={{ salt['elife.cfg']('project.stackname') }}
             export NEW_RELIC_LICENSE_KEY={{ pillar.elife.newrelic.license }}
+            export ELIFE_API_GATEWAY_SECRET={{ pillar.elife_xpub.api_gateway.secret }}
 
 elife-xpub-environment-variables-for-database-credentials:
     file.managed:
