@@ -1,0 +1,7 @@
+image:
+  repository: xpub/xpub-elife
+  tag: latest
+  pullPolicy: Always
+
+nameOverride: ""
+fullnameOverride: ""

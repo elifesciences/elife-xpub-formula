@@ -1,0 +1,5 @@
+1. Get the application URL by running these commands:
+export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "elife-xpub.fullname" . }})
+# TODO: hardcoded ip of a node can be replaced by a static/dynamic DNS
+export NODE_IP=35.172.178.78
+echo http://$NODE_IP:$NODE_PORT
