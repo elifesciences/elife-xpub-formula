@@ -26,6 +26,8 @@ elife_xpub:
                 password: fake_password
             remote_path: fake_path
         api_key: ThisIsNotAnApiKey
+    api_gateway:
+        secret: fake_credential
     deployment_target: ci
 
 elife:
