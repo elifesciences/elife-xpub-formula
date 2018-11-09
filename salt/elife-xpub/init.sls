@@ -98,13 +98,20 @@ elife-xpub-database-available:
 
 {% if salt['elife.cfg']('project.node', 1) == 1 %}
 elife-xpub-database-setup:
-    cmd.script:
-        - name: salt://elife-xpub/scripts/setup-database.sh
+    file.managed:
+        - name: /usr/local/bin/setup-database.sh
+        - source: salt://elife-xpub/scripts/setup-database.sh
         - template: jinja
+        - mode: 755
+        - require:
+            - elife-xpub-database-available
+
+    cmd.run:
+        - name: /usr/local/bin/setup-database.sh
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
-            - elife-xpub-database-available
+            - file: elife-xpub-database-setup
         - require_in:
             - cmd: elife-xpub-docker-compose
 {% endif %}
