@@ -1,7 +1,7 @@
 image:
   repository: xpub/xpub-elife
   tag: latest
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 nameOverride: ""
 fullnameOverride: ""
