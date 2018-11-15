@@ -23,6 +23,24 @@ spec:
         app.kubernetes.io/component: app
         app.kubernetes.io/part-of: {{ include "elife-xpub.name" . }}
     spec:
+      initContainers:
+        - name: {{ .Chart.Name }}-setupdb
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: NODE_ENV
+            value: production
+          - name: PUBSWEET_SECRET
+            value: example-secret
+          - name: PGHOST
+            value: "{{ .Release.Name }}-postgresql"
+          - name: PGDATABASE
+            value: "{{ .Values.postgresql.postgresqlDatabase }}"
+          - name: PGUSER
+            value: "{{ .Values.postgresql.postgresqlUsername }}"
+          - name: PGPASSWORD
+            value: "{{ .Values.postgresql.postgresqlPassword }}"
+          command: ["/bin/bash", "-c", "npx pubsweet setupdb --username=pubsweet --password=pubsweet --email=fake@example.com --clobber"]
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -32,6 +50,15 @@ spec:
             value: production
           - name: PUBSWEET_SECRET
             value: example-secret
+            # `elife-xpub--test-postgresql` is the service name
+          - name: PGHOST
+            value: "{{ .Release.Name }}-postgresql"
+          - name: PGDATABASE
+            value: "{{ .Values.postgresql.postgresqlDatabase }}"
+          - name: PGUSER
+            value: "{{ .Values.postgresql.postgresqlUsername }}"
+          - name: PGPASSWORD
+            value: "{{ .Values.postgresql.postgresqlPassword }}"
           command: ["node", "app"]
           ports:
             - name: http
