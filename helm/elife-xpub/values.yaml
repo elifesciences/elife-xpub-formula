@@ -1,5 +1,5 @@
 image:
-  repository: xpub/xpub-elife
+  repository: elifesciences/elife-xpub
   tag: latest
   pullPolicy: IfNotPresent
 
