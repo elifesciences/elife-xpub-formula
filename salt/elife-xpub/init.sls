@@ -124,12 +124,21 @@ elife-xpub-docker-compose:
         - require:
             - elife-xpub-repository
 
+elife-xpub-database-migrations:
+    cmd.run:
+        - name: {{ docker_compose }} exec app /bin/bash -c "npx pubsweet migrate"
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /srv/elife-xpub
+        - require:
+            - elife-xpub-docker-compose
+
 elife-xpub-service-ready:
     cmd.run:
         - name: docker wait xpub_bootstrap_1
         - user: {{ pillar.elife.deploy_user.username }}
         - require:
             - elife-xpub-docker-compose
+            - elife-xpub-database-migrations
 
 elife-xpub-nginx-vhost:
     file.managed:
