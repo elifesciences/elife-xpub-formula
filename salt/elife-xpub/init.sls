@@ -126,7 +126,7 @@ elife-xpub-docker-compose:
 
 elife-xpub-database-migrations:
     cmd.run:
-        - name: {{ docker_compose }} exec -T app /bin/bash -c "npx pubsweet migrate"
+        - name: {{ docker_compose }} exec -T app npx pubsweet migrate
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
