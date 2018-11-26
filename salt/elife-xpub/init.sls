@@ -124,6 +124,7 @@ elife-xpub-docker-compose:
         - require:
             - elife-xpub-repository
 
+{% if salt['elife.cfg']('project.node', 1) == 1 %}
 elife-xpub-database-migrations:
     cmd.run:
         - name: {{ docker_compose }} exec -T app npx pubsweet migrate
@@ -131,6 +132,9 @@ elife-xpub-database-migrations:
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-docker-compose
+        - require_in:
+            - elife-xpub-service-ready
+{% endif %}
 
 elife-xpub-service-ready:
     cmd.run:
@@ -138,7 +142,6 @@ elife-xpub-service-ready:
         - user: {{ pillar.elife.deploy_user.username }}
         - require:
             - elife-xpub-docker-compose
-            - elife-xpub-database-migrations
 
 elife-xpub-nginx-vhost:
     file.managed:
