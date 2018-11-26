@@ -48,6 +48,8 @@ spec:
           env:
           - name: NODE_ENV
             value: production
+          - name: NODE_CONFIG_ENV
+            value: ci
           - name: PUBSWEET_SECRET
             value: example-secret
             # `elife-xpub--test-postgresql` is the service name
