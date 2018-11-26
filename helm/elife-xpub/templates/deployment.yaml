@@ -61,8 +61,6 @@ spec:
             value: "{{ .Values.postgresql.postgresqlUsername }}"
           - name: PGPASSWORD
             value: "{{ .Values.postgresql.postgresqlPassword }}"
-          - name: S3_ENDPOINT
-            value: http://localhost:4569
           command: ["node", "app"]
           ports:
             - name: http
