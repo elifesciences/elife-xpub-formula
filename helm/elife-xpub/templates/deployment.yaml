@@ -48,6 +48,8 @@ spec:
           env:
           - name: NODE_ENV
             value: production
+          - name: NODE_CONFIG_ENV
+            value: ci
           - name: PUBSWEET_SECRET
             value: example-secret
             # `elife-xpub--test-postgresql` is the service name
@@ -63,4 +65,10 @@ spec:
           ports:
             - name: http
               containerPort: 3000
+              protocol: TCP
+        - name: fakes3
+          image: lphoward/fake-s3
+          ports:
+            - name: http
+              containerPort: 4569
               protocol: TCP
