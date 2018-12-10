@@ -3,3 +3,8 @@ export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath=
 # TODO: hardcoded ip of a node can be replaced by a static/dynamic DNS
 export NODE_IP=35.172.178.78
 echo http://$NODE_IP:$NODE_PORT
+
+2. Get access to the application's container by running these commands:
+export POD_NAME=$(kubectl get --namespace {{ .Release.Namespace }} -o 'jsonpath={.items[0].metadata.name}' pod -lapp.kubernetes.io/instance={{ include "elife-xpub.fullname" . }})
+kubectl exec -it $POD_NAME bash
+
