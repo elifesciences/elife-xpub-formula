@@ -49,6 +49,11 @@ elife-xpub-environment-variables-for-configuration:
             export NEW_RELIC_APP_NAME={{ salt['elife.cfg']('project.stackname') }}
             export NEW_RELIC_LICENSE_KEY={{ pillar.elife.newrelic.license }}
             export ELIFE_API_GATEWAY_SECRET={{ pillar.elife_xpub.api_gateway.secret }}
+            export MAILER_HOST={{ pillar.elife_xpub.mailer.host }}
+            export MAILER_PORT={{ pillar.elife_xpub.mailer.port }}
+            {% if pillar.elife_xpub.mailer.user %}
+            export MAILER_AUTH='{"user": "{{ pillar.elife_xpub.mailer.user }}", "pass":"{{ pillar.elife.xpub.mailer.pass }}"}'
+            {% endif %}
 
 elife-xpub-environment-variables-for-database-credentials:
     file.managed:
