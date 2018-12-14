@@ -28,7 +28,12 @@ elife_xpub:
         api_key: ThisIsNotAnApiKey
     api_gateway:
         secret: fake_credential
-    deployment_target: ci
+    mailer:
+        host:
+        port: 25
+        user:
+        pass:
+    deployment_target: formula
 
 elife:
     aws:
