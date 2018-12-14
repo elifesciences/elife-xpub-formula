@@ -52,7 +52,7 @@ elife-xpub-environment-variables-for-configuration:
             export MAILER_HOST={{ pillar.elife_xpub.mailer.host }}
             export MAILER_PORT={{ pillar.elife_xpub.mailer.port }}
             {% if pillar.elife_xpub.mailer.user %}
-            export MAILER_AUTH='{"user": "{{ pillar.elife_xpub.mailer.user }}", "pass":"{{ pillar.elife.xpub.mailer.pass }}"}'
+            export MAILER_AUTH='{"user": "{{ pillar.elife_xpub.mailer.user }}", "pass":"{{ pillar.elife_xpub.mailer.pass }}"}'
             {% endif %}
 
 elife-xpub-environment-variables-for-database-credentials:
