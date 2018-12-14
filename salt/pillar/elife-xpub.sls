@@ -33,7 +33,7 @@ elife_xpub:
         port: 25
         user:
         pass:
-    deployment_target: ci
+    deployment_target: formula
 
 elife:
     aws:
