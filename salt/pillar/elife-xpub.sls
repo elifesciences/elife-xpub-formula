@@ -29,10 +29,10 @@ elife_xpub:
     api_gateway:
         secret: fake_credential
     mailer:
-        host:
+        host: smtp.example.com
         port: 25
-        user:
-        pass:
+        user: myuser
+        pass: mypass
     deployment_target: formula
 
 elife:
