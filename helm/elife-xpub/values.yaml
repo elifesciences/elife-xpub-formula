@@ -11,7 +11,7 @@ fullnameOverride: ""
 ##
 postgresql:
   image:
-    # TODO: use 10.4 if changing repository from default bitnami/postgresql
+    # should be 10.4 but it's the closest we have from bitnami/postgresql
     tag: "10.5.0"
   persistence:
     enabled: false
