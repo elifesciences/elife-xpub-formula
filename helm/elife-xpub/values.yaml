@@ -16,5 +16,4 @@ postgresql:
   persistence:
     enabled: false
   postgresqlDatabase: test
-  postgresqlUsername: test
   postgresqlPassword: pw
