@@ -44,10 +44,8 @@ elife:
         containers:
             sftp:
                 name: sftp
-                # TODO: mirror on elifesciences
-                image: atmoz/sftp
-                #tag: 20180717
-                tag: latest
+                image: elifesciences/sftp
+                tag: 20190110
                 command: ejpdummy:ejpdummy:::meca
                 ports:
                     # SSH/SFTP
