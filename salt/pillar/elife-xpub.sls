@@ -40,6 +40,8 @@ elife:
         access_key_id: AKIAFAKE
         secret_access_key: fake
     # for testing
+    nginx_public_folders:
+        - meca
     sidecars:
         containers:
             sftp:
@@ -50,4 +52,6 @@ elife:
                 ports:
                     # SSH/SFTP
                     - "2222:22"
+                volumes:
+                    - "/var/nginx-public-folders/meca:/home/ejpdummy/meca"
                 enabled: true
