@@ -8,4 +8,5 @@ base:
         - elife.aws-credentials
         - elife-xpub
         # for testing
+        - elife.nginx-public-folders
         - elife.sidecars
