@@ -20,10 +20,10 @@ elife_xpub:
     meca:
         sftp:
             connection:
-                host: fake_host
-                port: fake_port
-                username: fake_username
-                password: fake_password
+                host: localhost
+                port: 1022
+                username: ejpdummy
+                password: ejpdummy
             remote_path: fake_path
         api_key: ThisIsNotAnApiKey
     api_gateway:
@@ -39,3 +39,15 @@ elife:
     aws:
         access_key_id: AKIAFAKE
         secret_access_key: fake
+    # for testing
+    sidecars:
+        containers:
+            sftp:
+                name: sftp
+                image: elifesciences/sftp
+                tag: 20190110
+                command: ejpdummy:ejpdummy:::meca
+                ports:
+                    # SSH/SFTP
+                    - "2222:22"
+                enabled: true
