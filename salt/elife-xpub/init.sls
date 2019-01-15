@@ -162,6 +162,7 @@ elife-xpub-nginx-vhost:
 # makes Grobid eagerly load models
 # https://github.com/kermitt2/grobid/issues/289
 sciencebeam-grobid-models-warmup:
+    # warmup.pdf copied from https://github.com/elifesciences/elife-spectrum/blob/master/spectrum/templates/elife-xpub/initial-submission.pdf
     file.managed:
         - name: /home/{{ pillar.elife.deploy_user.username }}/warmup.pdf
         - source: salt://elife-xpub/config/home-deploy-user-warmup.pdf
