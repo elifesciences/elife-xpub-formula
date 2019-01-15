@@ -159,6 +159,28 @@ elife-xpub-nginx-vhost:
         - listen_in:
             - service: nginx-server-service
 
+# makes Grobid eagerly load models
+# https://github.com/kermitt2/grobid/issues/289
+sciencebeam-grobid-models-warmup:
+    # warmup.pdf copied from https://github.com/elifesciences/elife-spectrum/blob/master/spectrum/templates/elife-xpub/initial-submission.pdf
+    file.managed:
+        - name: /home/{{ pillar.elife.deploy_user.username }}/warmup.pdf
+        - source: salt://elife-xpub/config/home-deploy-user-warmup.pdf
+
+    cmd.run:
+        - name: |
+            curl -X POST \
+            --fail \
+            --show-error \
+            -H "Content-Type: application/pdf" \
+            --data-binary @warmup.pdf \
+            http://localhost:8075/api/convert?filename=warmup.pdf
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /home/{{ pillar.elife.deploy_user.username }}
+        - require:
+            - elife-xpub-service-ready
+            - file: sciencebeam-grobid-models-warmup
+
 # frees disk space from old images/containers/volumes/...
 # older than last 3 days hours and not in use
 elife-xpub-docker-prune:
