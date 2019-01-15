@@ -163,7 +163,7 @@ elife-xpub-nginx-vhost:
 # https://github.com/kermitt2/grobid/issues/289
 sciencebeam-grobid-models-warmup:
     file.managed:
-        - name: /home/{{ pillar.elife.deploy_user.name }}/warmup.pdf
+        - name: /home/{{ pillar.elife.deploy_user.username }}/warmup.pdf
         - source: salt://elife-xpub/config/home-deploy-user-warmup.pdf
 
     cmd.run:
