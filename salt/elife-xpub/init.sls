@@ -119,6 +119,24 @@ elife-xpub-database-setup:
             - file: elife-xpub-database-setup
         - require_in:
             - cmd: elife-xpub-docker-compose
+
+elife-database-scripts-dump:
+    file.managed:
+        - name: /usr/local/bin/dump-database.sh
+        - source: salt://elife-xpub/scripts/dump-database.sh
+        - template: jinja
+        - mode: 755
+        - require:
+            - elife-xpub-database-setup
+
+elife-database-scripts-restore:
+    file.managed:
+        - name: /usr/local/bin/restore-database.sh
+        - source: salt://elife-xpub/scripts/restore-database.sh
+        - template: jinja
+        - mode: 755
+        - require:
+            - elife-xpub-database-setup
 {% endif %}
 
 elife-xpub-docker-compose:
