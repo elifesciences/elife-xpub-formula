@@ -4,6 +4,7 @@ base:
         - elife.external-volume
         - elife.docker
         - elife.nginx
+        - elife.nginx-error-pages
         - elife.aws-cli
         - elife.aws-credentials
         - elife-xpub

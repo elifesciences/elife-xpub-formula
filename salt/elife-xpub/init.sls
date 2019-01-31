@@ -174,6 +174,7 @@ elife-xpub-nginx-vhost:
         - require:
             - nginx-config
             - elife-xpub-service-ready
+            - nginx-error-pages
         - listen_in:
             - service: nginx-server-service
 
