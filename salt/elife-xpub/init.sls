@@ -225,3 +225,11 @@ elife-xpub-logrotate:
         - template: jinja
         - require:
             - elife-xpub-logs
+
+elife-xpub-vault-credentials-generic:
+    cmd.run:
+        - name: echo {{ salt['vault'].read_secret('secret/projects/elife-xpub/answer') }}
+
+elife-xpub-vault-credentials-environment:
+    cmd.run:
+        - name: echo {{ salt['vault'].read_secret('secret/projects/elife-xpub/' ~ pillar.elife.env ~ '/answer') }}
