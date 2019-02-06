@@ -228,8 +228,8 @@ elife-xpub-logrotate:
 
 elife-xpub-vault-credentials-generic:
     cmd.run:
-        - name: echo {{ salt['vault'].read_secret('secret/data/projects/elife-xpub/answer')|str }}
+        - name: echo {{ salt['vault'].read_secret('secret/data/projects/elife-xpub/answer')|yaml }}
 
 elife-xpub-vault-credentials-environment:
     cmd.run:
-        - name: echo {{ salt['vault'].read_secret('secret/data/projects/elife-xpub/' ~ pillar.elife.env ~ '/answer')|str }}
+        - name: echo {{ salt['vault'].read_secret('secret/data/projects/elife-xpub/' ~ pillar.elife.env ~ '/answer')|yaml }}
