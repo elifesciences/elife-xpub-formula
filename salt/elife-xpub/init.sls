@@ -161,7 +161,10 @@ elife-xpub-database-migrations:
 
 elife-xpub-service-ready:
     cmd.run:
-        - name: docker wait xpub_bootstrap_1
+        - name: |
+            docker-wait-healthy xpub_grobid_1
+            docker-wait-healthy xpub_sciencebeam_1
+            docker wait xpub_bootstrap_1
         - user: {{ pillar.elife.deploy_user.username }}
         - require:
             - elife-xpub-docker-compose
