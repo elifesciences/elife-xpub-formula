@@ -92,14 +92,22 @@ elife-xpub-database-startup:
             - elife-xpub-environment-variables-for-database-credentials
 
 elife-xpub-database-available:
+    file.managed:
+        - name: /usr/local/bin/wait-database.sh
+        - source: salt://elife-xpub/scripts/wait-database.sh
+        - template: jinja
+        - mode: 755
+        - require:
+            - elife-xpub-database-startup
+
     cmd.run:
-        - name: |
-            # NOTE: var expansion happens on the host not in the container
-            {{ docker_compose }} run --rm app /bin/bash -c "timeout 10 bash -c 'until echo > /dev/tcp/${PGHOST}/${PGPORT} ; do sleep 1 ;done' "
+        - name: /usr/local/bin/wait-database.sh
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /srv/elife-xpub
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
-            - elife-xpub-database-startup
+            - file: elife-xpub-database-available
 
 {% if salt['elife.cfg']('project.node', 1) == 1 %}
 elife-xpub-database-setup:
