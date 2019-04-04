@@ -172,7 +172,7 @@ elife-xpub-service-ready:
         - name: |
             docker-wait-healthy xpub_grobid_1
             docker-wait-healthy xpub_sciencebeam_1
-            docker wait xpub_bootstrap_1
+            timeout 300 docker wait xpub_bootstrap_1
         - user: {{ pillar.elife.deploy_user.username }}
         - require:
             - elife-xpub-docker-compose
