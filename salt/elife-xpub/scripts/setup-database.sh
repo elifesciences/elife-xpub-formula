@@ -15,5 +15,5 @@ if [ ! -z "${DROP}" ]; then
     ${dc} run --rm ${db_env} postgres /bin/bash -c "${recreate}"
 fi
 
-# Always run the migrate to ensure the database has the correct schema
+echo Always run the migrate to ensure the database has the correct schema
 ${dc} run --rm app /bin/bash -c "npx pubsweet migrate"
