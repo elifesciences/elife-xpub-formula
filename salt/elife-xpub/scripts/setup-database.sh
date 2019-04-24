@@ -2,6 +2,7 @@
 set -e
 
 dc="docker-compose -f docker-compose.yml -f docker-compose.formula.yml"
+clean_migrate_command="scripts/clean-migrate-database.js"
 db_env="-e PGHOST=${PGHOST} -e PGPORT=${PGPORT} -e PGUSER=${PGUSER} -e PGDATABASE=${PGDATABASE} -e PGPASSWORD=${PGPASSWORD}"
 recreate="dropdb ${PGDATABASE} && createdb ${PGDATABASE}"
 
@@ -12,8 +13,9 @@ recreate="dropdb ${PGDATABASE} && createdb ${PGDATABASE}"
 # SETUP_ARGS="--username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }}"
 
 if [ ! -z "${DROP}" ]; then
-    ${dc} run --rm ${db_env} postgres /bin/bash -c "${recreate}"
+  ${dc} run --rm app /bin/bash -c "${clean_migrate_command}"
+else
+  echo Always run the migrate to ensure the database has the correct schema
+  ${dc} run --rm app /bin/bash -c "npx pubsweet migrate"
 fi
 
-echo Always run the migrate to ensure the database has the correct schema
-${dc} run --rm app /bin/bash -c "npx pubsweet migrate"
