@@ -4,9 +4,7 @@
 {% if salt['elife.cfg']('project.node', 1) == 1 %}
 elife-xpub-database-drop:
     cmd.run:
-        - name: |
-            /usr/local/bin/wait-database.sh
-            /usr/local/bin/setup-database.sh
+        - name: /usr/local/bin/setup-database.sh
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - env:
