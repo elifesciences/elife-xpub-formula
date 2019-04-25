@@ -1,0 +1,12 @@
+# tests dropping and recreation of the database
+
+base:
+    '*':
+        - elife
+        - elife.external-volume
+        - elife.docker
+        - elife.nginx
+        - elife.aws-cli
+        - elife.aws-credentials
+        - elife-xpub
+        - elife-xpub.drop-database
