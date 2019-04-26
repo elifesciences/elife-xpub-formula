@@ -1,19 +1,21 @@
 #!/bin/bash
 set -e
 
-DC_COMMAND="docker-compose -f docker-compose.yml -f docker-compose.formula.yml"
-DB_CREATED_COMMAND="psql -c \"SELECT 'public.entities'::regclass\""
-DB_ENV="-e PGHOST=${PGHOST} -e PGPORT=${PGPORT} -e PGUSER=${PGUSER} -e PGDATABASE=${PGDATABASE} -e PGPASSWORD=${PGPASSWORD}"
-SETUP_ARGS="--username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }}"
+dc="docker-compose -f docker-compose.yml -f docker-compose.formula.yml"
+clean_migrate_command="scripts/clean-migrate-database.js"
+db_env="-e PGHOST=${PGHOST} -e PGPORT=${PGPORT} -e PGUSER=${PGUSER} -e PGDATABASE=${PGDATABASE} -e PGPASSWORD=${PGPASSWORD}"
+recreate="dropdb ${PGDATABASE} && createdb ${PGDATABASE}"
+
+# Removing setting up a user (via clobber) in PubSweet as at the moment this is no longer necessary
+# This may be re-instated after the work to upgrade to the latest PubSweet version.
+# Ref: elifesciences/elife-xpub/issues/1920
+#
+# SETUP_ARGS="--username={{ pillar.elife_xpub.database.user }} --password={{ pillar.elife_xpub.database.password }} --email={{ pillar.elife_xpub.database.email }}"
 
 if [ ! -z "${DROP}" ]; then
-    ${DC_COMMAND} run --rm app /bin/bash -c "npx pubsweet setupdb ${SETUP_ARGS} --clobber"
-    exit
+  ${dc} run --rm app /bin/bash -c "${clean_migrate_command}"
+else
+  echo Always run the migrate to ensure the database has the correct schema
+  ${dc} run --rm app /bin/bash -c "npx pubsweet migrate"
 fi
 
-if ! ${DC_COMMAND} run --rm ${DB_ENV} postgres /bin/bash -c "${DB_CREATED_COMMAND}"
-then
-    ${DC_COMMAND} run --rm app /bin/bash -c "npx pubsweet setupdb ${SETUP_ARGS}"
-else
-    echo "Database is already present at ${PGHOST}:${PGPORT}"
-fi
