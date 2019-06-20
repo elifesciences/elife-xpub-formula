@@ -1,4 +1,4 @@
 apiVersion: v1
 description: A Helm chart to deploy elife-xpub pull requests on a temporary environment
 name: elife-xpub
-version: 0.1.0
+version: 0.1.1
