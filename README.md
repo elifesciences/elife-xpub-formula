@@ -27,3 +27,10 @@ The Helm chart will be pushed on this repository, which is configured in Jenkins
 ```
 alfred          s3://prod-elife-alfred/helm-charts
 ```
+
+You can check the version of a chart an environment is using with:
+
+```
+$ helm get elife-xpub--pr-2131 | grep CHART
+CHART: elife-xpub-0.1.1
+```
