@@ -24,7 +24,7 @@ spec:
         app.kubernetes.io/part-of: {{ include "elife-xpub.name" . }}
     spec:
       initContainers:
-        - name: {{ .Chart.Name }}-setupdb
+        - name: {{ .Chart.Name }}-migratedb
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
@@ -40,7 +40,7 @@ spec:
             value: "postgres"
           - name: PGPASSWORD
             value: "{{ .Values.postgresql.postgresqlPassword }}"
-          command: ["/bin/bash", "-c", "npx pubsweet setupdb --username=pubsweet --password=pubsweet --email=fake@example.com --clobber"]
+          command: ["/bin/bash", "-c", "npx pubsweet migrate"]
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
