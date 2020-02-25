@@ -103,7 +103,7 @@ elife-xpub-database-available:
     cmd.run:
         - name: /usr/local/bin/wait-database.sh
         - cwd: /srv/elife-xpub
-        - runas: {{ pillar.elife.deploy_user.username }}
+        #- runas: {{ pillar.elife.deploy_user.username }}
         - require:
             - file: elife-xpub-database-available
 
