@@ -101,7 +101,9 @@ elife-xpub-database-available:
             - elife-xpub-database-startup
 
     cmd.run:
-        - name: /usr/local/bin/wait-database.sh
+        - name: |
+            env | grep PG
+            /usr/local/bin/wait-database.sh
         - cwd: /srv/elife-xpub
         - runas: {{ pillar.elife.deploy_user.username }}
         - require:
