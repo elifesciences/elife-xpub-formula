@@ -102,6 +102,7 @@ elife-xpub-database-available:
 
     cmd.run:
         - name: |
+            source /etc/profile
             env | grep PG
             /usr/local/bin/wait-database.sh
         - cwd: /srv/elife-xpub
