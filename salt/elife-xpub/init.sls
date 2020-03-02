@@ -84,7 +84,7 @@ elife-xpub-database-startup:
             {% else %}
             {{ docker_compose }} up -d postgres
             {% endif %}
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-repository
@@ -101,11 +101,12 @@ elife-xpub-database-available:
             - elife-xpub-database-startup
 
     cmd.run:
-        - name: /usr/local/bin/wait-database.sh
-        - user: {{ pillar.elife.deploy_user.username }}
+        - name: |
+            source /etc/profile
+            env | grep PG
+            /usr/local/bin/wait-database.sh
         - cwd: /srv/elife-xpub
-        - user: {{ pillar.elife.deploy_user.username }}
-        - cwd: /srv/elife-xpub
+        - runas: {{ pillar.elife.deploy_user.username }}
         - require:
             - file: elife-xpub-database-available
 
@@ -121,7 +122,7 @@ elife-xpub-database-setup:
 
     cmd.run:
         - name: /usr/local/bin/setup-database.sh
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
             - file: elife-xpub-database-setup
@@ -150,7 +151,7 @@ elife-database-scripts-restore:
 elife-xpub-docker-compose:
     cmd.run:
         - name: {{ docker_compose }} up -d --force-recreate
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-repository
@@ -159,7 +160,7 @@ elife-xpub-docker-compose:
 elife-xpub-database-migrations:
     cmd.run:
         - name: {{ docker_compose }} exec -T app npx pubsweet migrate
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - require:
             - elife-xpub-docker-compose
@@ -173,7 +174,7 @@ elife-xpub-service-ready:
             docker-wait-healthy xpub_grobid_1
             docker-wait-healthy xpub_sciencebeam_1
             timeout 300 docker wait xpub_bootstrap_1
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - require:
             - elife-xpub-docker-compose
 
@@ -204,7 +205,7 @@ sciencebeam-grobid-models-warmup:
             -H "Content-Type: application/pdf" \
             --data-binary @warmup.pdf \
             http://localhost:8075/api/convert?filename=warmup.pdf
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - cwd: /home/{{ pillar.elife.deploy_user.username }}
         - require:
             - elife-xpub-service-ready
