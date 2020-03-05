@@ -5,7 +5,7 @@
 elife-xpub-database-drop:
     cmd.run:
         - name: /usr/local/bin/setup-database.sh
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-xpub
         - env:
             - DROP: 1
