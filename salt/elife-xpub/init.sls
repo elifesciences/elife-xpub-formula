@@ -167,7 +167,7 @@ elife-xpub-database-migrations:
         - require:
             - elife-xpub-docker-compose
         - require_in:
-            - elife-xpub-service-ready
+            - cmd: elife-xpub-service-ready
 {% endif %}
 
 elife-xpub-service-ready:
