@@ -1,1 +1,1 @@
-elifeFormula('elife-xpub', '/srv/elife-xpub')
+elifeFormula('elife-xpub', '/srv/elife-xpub', null, ['snsalt'])
